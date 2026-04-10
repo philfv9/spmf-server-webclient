@@ -202,9 +202,9 @@ GET /api/jobs/{jobId}/console
 
 ---
 
-## Future Improvements
+##  Improvements
 
-This is an early release. Send your comments and suggestions to philfv AT qq DOT com
+Interested in contributing? Send your comments and suggestions for improvements to philfv AT qq DOT com
 
 ---
 
