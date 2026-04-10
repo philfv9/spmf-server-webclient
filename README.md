@@ -108,41 +108,15 @@ spmf-server-webclient/
 
 ## Usage
 
-### 1. Start SPMF-Server
+### 1. Start the server 
 
-Make sure the backend server is running:
+1. Start the SPMF Server  (see [SPMF-Server](https://github.com/philfv9/spmf-server) page for instructions).
 
-```
-http://localhost:8585
-```
+### 2. Start the webclient
 
----
+Open `index.html`.
 
-### 2. Open the Web Client
-
-Open:
-
-```
-index.html
-```
-
-or serve locally:
-
-```bash
-python -m http.server 8000
-```
-
-Then open:
-
-```
-http://localhost:8000
-```
-
----
-
-### 3. Configure Connection
-
-Inside `js/config.js`:
+You can also preset the configuration for connecting to the server in config.js:
 
 | Setting | Description |
 |--------|------------|
@@ -230,18 +204,15 @@ GET /api/jobs/{jobId}/console
 
 ## Future Improvements
 
-- Dark/light theme switch
-- Advanced visual analytics
-- Export results (CSV / JSON)
-- IndexedDB job history
-- Multi-server support
-- Drag & drop dataset upload
+This is an early release. Send your comments and suggestions to philfv AT qq DOT com
 
 ---
 
 ## License
 
 This project is licensed under the GNU General Public License v3.0.
+
+The code is copyright by the authors.
 
 © Philippe Fournier-Viger
 
