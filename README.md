@@ -1,23 +1,254 @@
+[![License](https://img.shields.io/github/license/philfv9/spmf-server-webclient.svg)](https://github.com/philfv9/spmf-server-webclient/blob/main/LICENSE)
+[![Stars](https://img.shields.io/github/stars/philfv9/spmf-server-webclient.svg)](https://github.com/philfv9/spmf-server-webclient/stargazers)
+
 # spmf-server-webclient
-A Web client (HTML, JS, CSS) with GUI application for SPMF-Server. Provide interface to submit pattern mining jobs, poll job status, and fetch results。
 
+A **web-based client (HTML, JavaScript, CSS)** with a modern GUI for  
+[SPMF-Server](https://github.com/philfv9/spmf-server).
 
+It provides a complete interface to:
 
+- Browse mining algorithms
+- Submit pattern mining jobs
+- Monitor job execution
+- Poll job status automatically
+- Retrieve and visualize results
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Project Structure](#project-structure)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [API Interaction](#api-interaction)
+- [Views](#views)
+- [License](#license)
+
+---
+
+## Overview
+
+This project is a **lightweight web client** that connects directly to a running instance of **SPMF-Server**.
+
+It replaces command-line or desktop tools with a fully interactive browser interface.
+
+```
+Browser UI (HTML/JS)
+        ↓
+   api.js (HTTP layer)
+        ↓
+   SPMF-Server (REST API)
+        ↓
+   SPMF Library (Java mining engine)
+```
+
+The client handles the full job lifecycle automatically:
+
+```
+submit → poll → monitor → fetch console → fetch result → visualize
+```
+
+---
+
+## Features
+
+- Modern **single-page web application (SPA)**
+- Algorithm browser with dynamic loading
+- Job submission interface with parameter support
+- Automatic job polling (live status updates)
+- Job history dashboard
+- Result visualization module
+- Console output viewer
+- Modular architecture (separation of UI / API / logic)
+- Fully responsive layout (desktop-friendly, extensible to mobile)
+
+---
+
+## Architecture
+
+| Layer | Files | Responsibility |
+|------|------|----------------|
+| UI Layer | `index.html`, `layout.css`, `components.css`, `views.css` | Interface rendering |
+| Logic Layer | `dashboard.js`, `run.js`, `jobs.js`, `algorithms.js` | Application logic |
+| Navigation | `nav.js` | Routing and view switching |
+| API Layer | `api.js` | HTTP communication with server |
+| Utilities | `ui.js`, `config.js` | Helpers, state, notifications |
+| Visualization | `visualizer.js` | Result rendering |
+
+---
+
+## Project Structure
+
+```
 spmf-server-webclient/
 ├── index.html
 ├── css/
-│   ├── tokens.css        ← design tokens & variables
-│   ├── reset.css         ← reset & base
-│   ├── layout.css        ← shell, sidebar, topbar
-│   ├── components.css    ← cards, buttons, forms, badges…
-│   └── views.css         ← view-specific styles
+│   ├── tokens.css
+│   ├── reset.css
+│   ├── layout.css
+│   ├── components.css
+│   └── views.css
 └── js/
-    ├── config.js         ← settings & persistence
-    ├── api.js            ← HTTP layer
-    ├── nav.js            ← navigation & routing
-    ├── dashboard.js      ← dashboard view
-    ├── algorithms.js     ← algorithm browser & detail panel
-    ├── run.js            ← run-job workflow
-    ├── jobs.js           ← jobs view
-    ├── visualizer.js     ← result visualization
-    └── ui.js             ← toast, modals, utilities
+    ├── config.js
+    ├── api.js
+    ├── nav.js
+    ├── dashboard.js
+    ├── algorithms.js
+    ├── run.js
+    ├── jobs.js
+    ├── visualizer.js
+    └── ui.js
+```
+
+---
+
+## Usage
+
+### 1. Start SPMF-Server
+
+Make sure the backend server is running:
+
+```
+http://localhost:8585
+```
+
+---
+
+### 2. Open the Web Client
+
+Open:
+
+```
+index.html
+```
+
+or serve locally:
+
+```bash
+python -m http.server 8000
+```
+
+Then open:
+
+```
+http://localhost:8000
+```
+
+---
+
+### 3. Configure Connection
+
+Inside `js/config.js`:
+
+| Setting | Description |
+|--------|------------|
+| host | Server hostname (default: localhost) |
+| port | Server port (default: 8585) |
+| apiKey | Optional API authentication key |
+
+---
+
+## Configuration
+
+```javascript
+export const config = {
+  host: "localhost",
+  port: 8585,
+  pollInterval: 1000,
+  timeout: 300
+};
+```
+
+---
+
+## API Interaction
+
+### Submit job
+```
+POST /api/run
+```
+
+### Check status
+```
+GET /api/jobs/{jobId}
+```
+
+### Fetch result
+```
+GET /api/jobs/{jobId}/result
+```
+
+### Fetch console
+```
+GET /api/jobs/{jobId}/console
+```
+
+---
+
+## Views
+
+### Dashboard
+- Server status overview
+- Active job monitoring
+- System logs
+
+### Algorithms
+- Browse all algorithms
+- Search & filter
+- View parameters
+
+### Run Job
+- Select algorithm
+- Upload dataset
+- Enter parameters
+- Submit execution
+
+### Jobs
+- Live job list
+- Status tracking
+- Delete jobs
+
+### Visualizer
+- Result rendering
+- Console output view
+
+---
+
+## Design Principles
+
+- Modular vanilla JavaScript architecture
+- Separation of UI / logic / API
+- No heavy frameworks
+- Extensible and maintainable structure
+- Consistent CSS token system
+
+---
+
+## Future Improvements
+
+- Dark/light theme switch
+- Advanced visual analytics
+- Export results (CSV / JSON)
+- IndexedDB job history
+- Multi-server support
+- Drag & drop dataset upload
+
+---
+
+## License
+
+This project is licensed under the GNU General Public License v3.0.
+
+© Philippe Fournier-Viger
+
+---
+
+## Related Projects
+
+- SPMF Library: https://github.com/philfv9/spmf
+- SPMF-Server: https://github.com/philfv9/spmf-server
+- Official Website: http://philippe-fournier-viger.com/spmf/
