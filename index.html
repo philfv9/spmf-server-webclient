@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+  SPMF-Web: Browser-Based Client for SPMF-Server
+  Copyright (C) 2026 Philippe Fournier-Viger
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program. If not, see <https://www.gnu.org/licenses/>.
+-->
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SPMF-Web</title>
+
+<link rel="stylesheet" href="css/tokens.css"/>
+<link rel="stylesheet" href="css/reset.css"/>
+<link rel="stylesheet" href="css/layout.css"/>
+<link rel="stylesheet" href="css/components.css"/>
+<link rel="stylesheet" href="css/views.css"/>
+</head>
+<body>
+
+<div id="shell">
+
+  <!-- ══════════════════════════════════════════════════════════
+       TOPBAR
+  ══════════════════════════════════════════════════════════ -->
+  <header id="topbar">
+    <a class="logo" href="#" onclick="return false;">
+      <div class="logo-mark">S</div>
+      <span class="logo-text">SPMF-Web</span>
+    </a>
+
+    <div class="topbar-sep-line"></div>
+    <div id="breadcrumb" class="breadcrumb">Dashboard</div>
+    <div class="topbar-flex"></div>
+
+    <div id="recent-pills" class="recent-pills"></div>
+
+    <div class="topbar-sep-line"></div>
+
+    <div class="server-indicator" id="server-indicator"
+         onclick="Nav.go('dashboard')" title="Click to refresh">
+      <div class="pulse-dot" id="pulse-dot"></div>
+      <span id="server-label">Connecting…</span>
+    </div>
+
+    <button class="topbar-icon-btn" onclick="Nav.go('settings')"
+            title="Settings">⚙</button>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SIDEBAR
+  ══════════════════════════════════════════════════════════ -->
+  <nav id="sidebar">
+    <div class="nav-section-label">Overview</div>
+    <button class="nav-item active" id="nav-dashboard"
+            onclick="Nav.go('dashboard')">
+      <span class="nav-icon">⬡</span> Dashboard
+    </button>
+
+    <div class="nav-section-label">Work</div>
+    <button class="nav-item" id="nav-algorithms"
+            onclick="Nav.go('algorithms')">
+      <span class="nav-icon">🔬</span> Algorithms
+      <span class="nav-badge" id="algo-nav-badge"
+            style="display:none;"></span>
+    </button>
+    <button class="nav-item" id="nav-run"
+            onclick="Nav.go('run')">
+      <span class="nav-icon">▶</span> Run Job
+    </button>
+    <button class="nav-item" id="nav-jobs"
+            onclick="Nav.go('jobs')">
+      <span class="nav-icon">☰</span> Jobs
+      <span class="nav-badge" id="jobs-nav-badge"
+            style="display:none;"></span>
+    </button>
+
+    <div class="nav-section-label">System</div>
+    <button class="nav-item" id="nav-settings"
+            onclick="Nav.go('settings')">
+      <span class="nav-icon">⚙</span> Settings
+    </button>
+    <button class="nav-item" id="nav-about"
+            onclick="Nav.go('about')">
+      <span class="nav-icon">ℹ</span> About
+    </button>
+
+    <div class="nav-spacer"></div>
+    <div class="sidebar-footer">
+      SPMF-Web v1.0.0<br/>
+      © 2026 Philippe Fournier-Viger<br/>
+      <a class="text-link" href="#"
+         onclick="Nav.go('about');return false;">GPL v3 License</a>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════════════
+       MAIN
+  ══════════════════════════════════════════════════════════ -->
+  <main id="main">
+
+    <!-- ── DASHBOARD ─────────────────────────────────────────── -->
+    <div class="view active" id="view-dashboard">
+      <div class="page-header">
+        <div class="page-title">⬡ Dashboard</div>
+        <div class="page-subtitle">
+          Real-time overview of your SPMF server.
+        </div>
+      </div>
+
+      <div class="conn-banner" id="conn-banner">
+        ⚠ Cannot reach the server at
+        <strong id="conn-banner-addr"></strong>.
+        <button class="btn btn-ghost btn-sm"
+                onclick="Dashboard.refresh()">Retry</button>
+        <button class="btn btn-ghost btn-sm"
+                onclick="Nav.go('settings')">Settings</button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-tile color-accent">
+          <div class="stat-label">Status</div>
+          <div class="stat-value" id="ds-status">—</div>
+          <div class="stat-sub"  id="ds-version">—</div>
+        </div>
+        <div class="stat-tile color-success">
+          <div class="stat-label">Algorithms</div>
+          <div class="stat-value" id="ds-algos">—</div>
+          <div class="stat-sub">loaded</div>
+        </div>
+        <div class="stat-tile color-warning">
+          <div class="stat-label">Active Jobs</div>
+          <div class="stat-value" id="ds-active">—</div>
+          <div class="stat-sub" id="ds-queued">— queued</div>
+        </div>
+        <div class="stat-tile color-purple">
+          <div class="stat-label">Total Jobs</div>
+          <div class="stat-value" id="ds-total">—</div>
+          <div class="stat-sub">in registry</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-label">Uptime</div>
+          <div class="stat-value" id="ds-uptime">—</div>
+          <div class="stat-sub">seconds</div>
+        </div>
+      </div>
+
+      <div class="two-col-layout">
+        <div class="card flex-1">
+          <div class="card-header">
+            <div class="card-title">
+              <div class="card-icon">🖥</div>
+              Server Configuration
+            </div>
+            <button class="btn btn-ghost btn-sm"
+                    onclick="Dashboard.refresh()">↻ Refresh</button>
+          </div>
+          <table class="kv-table" id="server-info-table">
+            <tbody>
+              <tr><td colspan="2" class="text-muted text-sm">
+                Loading…
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sidebar-cards">
+          <div class="card">
+            <div class="card-title" style="margin-bottom:14px;">
+              <div class="card-icon">⚡</div> Quick Actions
+            </div>
+            <div class="quick-actions">
+              <button class="btn btn-primary btn-block"
+                      onclick="Nav.go('algorithms')">
+                🔬 Browse Algorithms
+              </button>
+              <button class="btn btn-success btn-block"
+                      onclick="Nav.go('run')">
+                ▶ Run a Job
+              </button>
+              <button class="btn btn-ghost btn-block"
+                      onclick="Nav.go('jobs')">
+                ☰ View All Jobs
+              </button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title" style="margin-bottom:14px;">
+              <div class="card-icon">🕐</div> Recent Runs
+            </div>
+            <div id="recent-list">
+              <p class="text-muted text-sm">No recent runs yet.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /dashboard -->
+
+    <!-- ── ALGORITHMS ─────────────────────────────────────────── -->
+    <div class="view" id="view-algorithms">
+      <div class="page-header">
+        <div class="page-title">🔬 Algorithm Browser</div>
+        <div class="page-subtitle" id="algo-page-sub">
+          Loading algorithm list…
+        </div>
+      </div>
+
+      <div class="algo-toolbar">
+        <div class="search-wrap flex-1">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="algo-search"
+                 placeholder="Search algorithms…"
+                 oninput="AlgoBrowser.onSearch()"/>
+          <button class="search-clear" id="algo-search-clear"
+                  onclick="AlgoBrowser.clearSearch()">✕</button>
+        </div>
+        <select id="algo-cat-filter" class="select-inline"
+                onchange="AlgoBrowser.render()">
+          <option value="">All Categories</option>
+        </select>
+        <div class="view-toggle">
+          <button class="view-btn active" id="vbtn-grid"
+                  onclick="AlgoBrowser.setView('grid')"
+                  title="Grid view">⊞</button>
+          <button class="view-btn" id="vbtn-list"
+                  onclick="AlgoBrowser.setView('list')"
+                  title="List view">☰</button>
+        </div>
+        <button class="btn btn-ghost btn-sm"
+                onclick="AlgoBrowser.load()">↻ Refresh</button>
+        <span class="count-badge" id="algo-count-badge"></span>
+      </div>
+
+      <div id="algo-container">
+        <div class="loading-center">
+          <div class="spinner"></div> Loading algorithms…
+        </div>
+      </div>
+    </div><!-- /algorithms -->
+
+    <!-- ── RUN JOB ─────────────────────────────────────────────── -->
+    <div class="view" id="view-run">
+      <div class="page-header row-between">
+        <div>
+          <div class="page-title">▶ Run Job</div>
+          <div class="page-subtitle">
+            Configure and execute a pattern mining algorithm.
+          </div>
+        </div>
+        <button class="btn btn-ghost btn-sm"
+                onclick="RunJob.reset()">↺ Reset Form</button>
+      </div>
+
+      <!-- Step 1 -->
+      <div class="step-card active" id="step1">
+        <div class="step-header" onclick="RunJob.toggleStep('step1')">
+          <div class="step-num" id="step1-num">1</div>
+          <div class="step-labels">
+            <div class="step-title">Select Algorithm</div>
+            <div class="step-sub" id="step1-sub">
+              Choose which algorithm to run
+            </div>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <div class="step-body-inner">
+            <div class="form-group">
+              <label class="field-label">
+                Algorithm Name
+                <span class="field-required">*</span>
+              </label>
+              <div class="input-row">
+                <input type="text" id="run-algo-name"
+                       placeholder="e.g. FPGrowth_itemsets"
+                       oninput="RunJob.onAlgoType()"
+                       autocomplete="off"/>
+                <button class="btn btn-ghost"
+                        onclick="AlgoPicker.open()">
+                  Browse…
+                </button>
+              </div>
+              <div class="field-error" id="err-algo">
+                ⚠ Please select a valid algorithm.
+              </div>
+            </div>
+            <div id="run-algo-summary" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step-card collapsed" id="step2">
+        <div class="step-header" onclick="RunJob.toggleStep('step2')">
+          <div class="step-num" id="step2-num">2</div>
+          <div class="step-labels">
+            <div class="step-title">Input Dataset</div>
+            <div class="step-sub" id="step2-sub">
+              Upload a file or paste your data
+            </div>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <div class="step-body-inner">
+            <div class="tab-strip">
+              <button class="tab-btn active"
+                      onclick="RunJob.setInputMode('file',this)">
+                📁 File Upload
+              </button>
+              <button class="tab-btn"
+                      onclick="RunJob.setInputMode('paste',this)">
+                ✏️ Paste Text
+              </button>
+            </div>
+
+            <div id="input-file-panel">
+              <div class="drop-zone" id="drop-zone"
+                   onclick="document.getElementById('file-picker').click()"
+                   ondragover="RunJob.onDragOver(event)"
+                   ondragleave="RunJob.onDragLeave()"
+                   ondrop="RunJob.onDrop(event)">
+                <input type="file" id="file-picker"
+                       onchange="RunJob.onFileChosen(event)"/>
+                <div class="drop-icon">📂</div>
+                <div class="drop-title">
+                  Drop file here or click to browse
+                </div>
+                <div class="drop-sub">
+                  Plain text, CSV, .dat — UTF-8
+                </div>
+              </div>
+              <div class="file-info-row" id="file-info">
+                <span>✅</span>
+                <span id="file-info-name"></span>
+                <span class="text-muted" id="file-info-size"></span>
+                <button class="btn btn-ghost btn-sm"
+                        style="margin-left:auto;"
+                        onclick="RunJob.clearFile()">Remove</button>
+              </div>
+            </div>
+
+            <div id="input-paste-panel" style="display:none;">
+              <textarea id="paste-area" rows="12"
+                        placeholder="Paste your dataset here…"
+                        oninput="RunJob.onPasteInput()"></textarea>
+              <div class="text-xs text-muted"
+                   id="paste-stats"></div>
+            </div>
+
+            <div class="field-error" id="err-input">
+              ⚠ Please provide input data.
+            </div>
+
+            <div id="preview-wrap" style="display:none;">
+              <div class="code-wrap">
+                <div class="code-toolbar">
+                  <span class="code-label">
+                    📄 Preview
+                    <span class="badge badge-gray"
+                          id="preview-badge"></span>
+                  </span>
+                  <button class="btn btn-ghost btn-sm"
+                          onclick="RunJob.togglePreview()">
+                    <span id="preview-toggle-lbl">Collapse</span>
+                  </button>
+                </div>
+                <div class="code-body code-short"
+                     id="preview-body"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-card collapsed" id="step3">
+        <div class="step-header" onclick="RunJob.toggleStep('step3')">
+          <div class="step-num" id="step3-num">3</div>
+          <div class="step-labels">
+            <div class="step-title">Parameters</div>
+            <div class="step-sub" id="step3-sub">
+              Configure algorithm parameters
+            </div>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <div class="step-body-inner">
+            <div id="param-form">
+              <p class="text-muted text-sm">
+                Select an algorithm first.
+              </p>
+            </div>
+            <div class="field-error" id="err-params">
+              ⚠ Please fill all required parameters.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step-card collapsed" id="step4">
+        <div class="step-header" onclick="RunJob.toggleStep('step4')">
+          <div class="step-num" id="step4-num">4</div>
+          <div class="step-labels">
+            <div class="step-title">Options</div>
+            <div class="step-sub">
+              Encoding and cleanup preferences
+            </div>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <div class="step-body-inner form-grid-2">
+            <div class="form-group">
+              <label class="field-label">Input Encoding</label>
+              <select id="run-encoding">
+                <option value="plain">Plain text</option>
+                <option value="base64">Base64</option>
+              </select>
+              <div class="field-hint">
+                Use base64 for binary datasets.
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="field-label">After Completion</label>
+              <label class="toggle-row">
+                <span class="toggle">
+                  <input type="checkbox" id="run-cleanup" checked/>
+                  <span class="toggle-track"></span>
+                </span>
+                <span>
+                  <div class="toggle-label">Auto-delete job</div>
+                  <div class="toggle-sub">
+                    Remove from server after retrieval
+                  </div>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit bar -->
+      <div class="card">
+        <div class="submit-bar">
+          <div id="submit-summary">
+            <span class="text-muted text-sm">
+              Configure all steps above, then submit.
+            </span>
+          </div>
+          <button class="btn btn-success btn-lg" id="submit-btn"
+                  onclick="RunJob.submit()">
+            ▶ Submit Job
+          </button>
+        </div>
+      </div>
+
+      <!-- Progress + result -->
+      <div id="run-output" style="display:none;">
+        <div class="job-status-banner pending" id="status-banner">
+          <div class="banner-icon">⏳</div>
+          <div class="banner-main">
+            <div class="banner-title" id="banner-title">
+              Submitting…
+            </div>
+            <div class="banner-sub" id="banner-sub"></div>
+          </div>
+        </div>
+
+        <div id="progress-wrap" style="margin-top:10px;">
+          <div class="progress-track">
+            <div class="progress-fill indeterminate"
+                 id="progress-fill"></div>
+          </div>
+          <div class="progress-meta">
+            <span>Job ID:
+              <span class="mono" id="run-job-id">—</span>
+              <button class="btn btn-ghost btn-sm copy-id-btn"
+                      onclick="RunJob.copyJobId()"
+                      title="Copy ID">⎘</button>
+            </span>
+            <span id="poll-elapsed"></span>
+          </div>
+        </div>
+
+        <!-- Result card -->
+        <div class="card result-card" id="result-card"
+             style="display:none;">
+          <div class="form-grid-3 mb-14">
+            <div class="stat-tile color-success">
+              <div class="stat-label">Execution Time</div>
+              <div class="stat-value" id="r-exec">—</div>
+              <div class="stat-sub">milliseconds</div>
+            </div>
+            <div class="stat-tile color-accent">
+              <div class="stat-label">Output Lines</div>
+              <div class="stat-value" id="r-lines">—</div>
+              <div class="stat-sub">rows</div>
+            </div>
+            <div class="stat-tile color-purple">
+              <div class="stat-label">Output Size</div>
+              <div class="stat-value" id="r-chars">—</div>
+              <div class="stat-sub">characters</div>
+            </div>
+          </div>
+
+          <div class="result-tabstrip">
+            <button class="result-tab active"
+                    onclick="RunJob.switchTab('raw',this)">
+              📄 Raw Output
+            </button>
+            <button class="result-tab"
+                    onclick="RunJob.switchTab('viz',this)">
+              📊 Visualization
+            </button>
+            <button class="result-tab"
+                    onclick="RunJob.switchTab('console',this)">
+              🖥 Console
+            </button>
+          </div>
+
+          <div class="result-panel active" id="rtab-raw">
+            <div class="code-wrap">
+              <div class="code-toolbar">
+                <span class="code-label">📄 Raw Output</span>
+                <div class="toolbar-actions">
+                  <button class="btn btn-ghost btn-sm"
+                          onclick="RunJob.copyOutput()">
+                    ⎘ Copy
+                  </button>
+                  <button class="btn btn-ghost btn-sm"
+                          onclick="RunJob.downloadOutput()">
+                    ⬇ Download
+                  </button>
+                </div>
+              </div>
+              <div id="raw-output-body"></div>
+            </div>
+          </div>
+
+          <div class="result-panel" id="rtab-viz">
+            <div id="viz-body">
+              <div class="empty-state">
+                <div class="es-icon">📊</div>
+                <div class="es-title">Run a job to see visualization</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-panel" id="rtab-console">
+            <div class="code-wrap">
+              <div class="code-toolbar">
+                <span class="code-label">🖥 Console Output</span>
+                <div class="toolbar-actions">
+                  <button class="btn btn-ghost btn-sm"
+                          onclick="RunJob.downloadConsole()">
+                    ⬇ Download
+                  </button>
+                </div>
+              </div>
+              <div class="code-body code-tall"
+                   id="console-output-body">
+                (no console output)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /run -->
+
+    <!-- ── JOBS ───────────────────────────────────────────────── -->
+    <div class="view" id="view-jobs">
+      <div class="page-header row-between">
+        <div>
+          <div class="page-title">☰ Jobs</div>
+          <div class="page-subtitle" id="jobs-subtitle">
+            All jobs tracked by the server.
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-ghost"
+                  onclick="JobsView.load()">↻ Refresh</button>
+          <button class="btn btn-ghost btn-sm job-filter-btn active"
+                  id="jf-all"
+                  onclick="JobsView.setFilter('ALL')">All</button>
+          <button class="btn btn-ghost btn-sm job-filter-btn"
+                  id="jf-done"
+                  onclick="JobsView.setFilter('DONE')">Done</button>
+          <button class="btn btn-ghost btn-sm job-filter-btn"
+                  id="jf-failed"
+                  onclick="JobsView.setFilter('FAILED')">Failed</button>
+          <button class="btn btn-ghost btn-sm job-filter-btn"
+                  id="jf-running"
+                  onclick="JobsView.setFilter('RUNNING')">Running</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Job ID</th>
+              <th class="sortable"
+                  onclick="JobsView.sort('algorithmName')">
+                Algorithm <span class="sort-arrow"></span>
+              </th>
+              <th class="sortable"
+                  onclick="JobsView.sort('status')">
+                Status <span class="sort-arrow"></span>
+              </th>
+              <th class="sortable"
+                  onclick="JobsView.sort('submittedAt')">
+                Submitted <span class="sort-arrow"></span>
+              </th>
+              <th class="sortable"
+                  onclick="JobsView.sort('executionTimeMs')">
+                Exec (ms) <span class="sort-arrow"></span>
+              </th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="jobs-body">
+            <tr><td colspan="6"
+                    class="text-center text-muted"
+                    style="padding:32px;">
+              Click Refresh to load jobs.
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card mt-14" id="job-detail" style="display:none;">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-icon">🔍</div> Job Detail
+          </div>
+          <button class="btn btn-ghost btn-sm"
+                  onclick="JobsView.closeDetail()">✕ Close</button>
+        </div>
+        <div id="job-detail-body"></div>
+      </div>
+    </div><!-- /jobs -->
+
+    <!-- ── SETTINGS ───────────────────────────────────────────── -->
+    <div class="view" id="view-settings">
+      <div class="page-header">
+        <div class="page-title">⚙ Settings</div>
+        <div class="page-subtitle">
+          Server connection and application preferences.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-icon">🔌</div> Server Connection
+          </div>
+        </div>
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label class="field-label">Host</label>
+            <input type="text" id="cfg-host" value="localhost"/>
+          </div>
+          <div class="form-group">
+            <label class="field-label">Port</label>
+            <input type="number" id="cfg-port" value="8585"
+                   min="1" max="65535"/>
+          </div>
+          <div class="form-group">
+            <label class="field-label">
+              API Key
+              <span class="text-muted text-xs">(optional)</span>
+            </label>
+            <input type="password" id="cfg-apikey"
+                   placeholder="Leave blank if not required"/>
+          </div>
+        </div>
+        <button class="btn btn-ghost btn-sm"
+                onclick="Dashboard.refresh()">
+          🔌 Test Connection
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-icon">⏱</div> Polling
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="field-label">
+              Poll Interval
+              <span class="text-muted text-xs">(seconds)</span>
+            </label>
+            <input type="number" id="cfg-poll" value="1"
+                   min="0.5" max="60" step="0.5"/>
+            <div class="field-hint">
+              How often to check job status.
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="field-label">
+              Timeout
+              <span class="text-muted text-xs">(seconds)</span>
+            </label>
+            <input type="number" id="cfg-timeout" value="300"
+                   min="5" max="7200"/>
+            <div class="field-hint">
+              Max time to wait before giving up.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-icon">🛡</div> Defaults
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="field-label">Default Encoding</label>
+            <select id="cfg-encoding">
+              <option value="plain">Plain text</option>
+              <option value="base64">Base64</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="field-label">Auto-cleanup</label>
+            <label class="toggle-row">
+              <span class="toggle">
+                <input type="checkbox" id="cfg-cleanup" checked/>
+                <span class="toggle-track"></span>
+              </span>
+              <span class="toggle-label">
+                Delete job after result retrieval
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary"
+                onclick="Config.save()">
+          💾 Save Settings
+        </button>
+        <button class="btn btn-ghost"
+                onclick="Config.reset()">
+          ↺ Reset Defaults
+        </button>
+      </div>
+    </div><!-- /settings -->
+
+    <!-- ── ABOUT ──────────────────────────────────────────────── -->
+    <div class="view" id="view-about">
+      <div class="page-header">
+        <div class="page-title">ℹ About SPMF-Web</div>
+        <div class="page-subtitle">
+          Browser-based client for the SPMF-Server REST API.
+        </div>
+      </div>
+
+      <div class="two-col-layout">
+        <div class="flex-1">
+          <div class="card">
+            <div class="card-title" style="margin-bottom:16px;">
+              <div class="card-icon">ℹ</div> Application
+            </div>
+            <table class="kv-table">
+              <tr><td>Application</td><td>SPMF-Web</td></tr>
+              <tr><td>Version</td>
+                  <td><span class="badge badge-blue">1.0.0</span></td>
+              </tr>
+              <tr><td>Copyright</td>
+                  <td>© 2026 Philippe Fournier-Viger</td>
+              </tr>
+              <tr><td>License</td>
+                  <td>GNU General Public License v3.0</td>
+              </tr>
+              <tr><td>SPMF Library</td>
+                  <td><a class="text-link"
+                         href="https://www.philippe-fournier-viger.com/spmf/"
+                         target="_blank">
+                    www.philippe-fournier-viger.com/spmf ↗
+                  </a></td>
+              </tr>
+              <tr><td>Server</td>
+                  <td class="mono" id="about-server-url">—</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-title" style="margin-bottom:16px;">
+              <div class="card-icon">🔗</div> API Reference
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Feature</th><th>Method</th>
+                      <th>Endpoint</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Health check</td>
+                      <td><span class="badge badge-green">GET</span></td>
+                      <td class="mono">/api/health</td></tr>
+                  <tr><td>Server info</td>
+                      <td><span class="badge badge-green">GET</span></td>
+                      <td class="mono">/api/info</td></tr>
+                  <tr><td>List algorithms</td>
+                      <td><span class="badge badge-green">GET</span></td>
+                      <td class="mono">/api/algorithms</td></tr>
+                  <tr><td>Describe algorithm</td>
+                      <td><span class="badge badge-green">GET</span></td>
+                      <td class="mono">/api/algorithms/{name}</td></tr>
+                  <tr><td>Submit job</td>
+                      <td><span class="badge badge-blue">POST</span></td>
+                      <td class="mono">/api/run</td></tr>
+                  <tr><td>List jobs</td>
+                      <td><span class="badge badge-green">GET</span></td>
+                      <td class="mono">/api/jobs</td></tr>
+                  <tr><td>Job status</td>
+                      <td><span class="badge badge-green">GET</span></td>
+                      <td class="mono">/api/jobs/{id}</td></tr>
+                  <tr><td>Job result</td>
+                      <td><span class="badge badge-green">GET</span></td>
+                      <td class="mono">/api/jobs/{id}/result</td></tr>
+                  <tr><td>Console output</td>
+                      <td><span class="badge badge-green">GET</span></td>
+                      <td class="mono">/api/jobs/{id}/console</td></tr>
+                  <tr><td>Delete job</td>
+                      <td><span class="badge badge-red">DELETE</span></td>
+                      <td class="mono">/api/jobs/{id}</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div style="width:300px;flex-shrink:0;">
+          <div class="card">
+            <div class="card-title" style="margin-bottom:16px;">
+              <div class="card-icon">📜</div> License
+            </div>
+            <div class="license-block">SPMF-Web — Browser-Based Client for SPMF-Server
+Copyright (C) 2026 Philippe Fournier-Viger
+
+This program is free software: you can redistribute
+it and/or modify it under the terms of the GNU
+General Public License as published by the Free
+Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it
+will be useful, but WITHOUT ANY WARRANTY; without
+even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General
+Public License along with this program. If not, see
+&lt;https://www.gnu.org/licenses/&gt;.</div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /about -->
+
+  </main>
+</div><!-- /#shell -->
+
+<!-- ══════════════════════════════════════════════════════════
+     SIDE PANEL: Algorithm Detail
+══════════════════════════════════════════════════════════ -->
+<div class="overlay" id="detail-overlay"
+     onclick="AlgoBrowser.closeDetail()"></div>
+<div class="side-panel" id="detail-panel">
+  <div class="side-panel-header">
+    <div class="side-panel-title" id="detail-title">
+      Algorithm Detail
+    </div>
+    <button class="side-panel-close"
+            onclick="AlgoBrowser.closeDetail()">✕</button>
+  </div>
+  <div class="side-panel-body" id="detail-body">
+    <div class="loading-center">
+      <div class="spinner lg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     MODAL: Algorithm Picker
+══════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="picker-backdrop"
+     onclick="AlgoPicker.onBackdrop(event)">
+  <div class="modal modal-wide">
+    <div class="modal-header">
+      <div class="modal-icon">🔬</div>
+      <div>
+        <div class="modal-title">Select Algorithm</div>
+        <div class="modal-subtitle" id="picker-sub">
+          — algorithms available
+        </div>
+      </div>
+    </div>
+    <div class="search-wrap mb-10">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="picker-search"
+             placeholder="Filter algorithms…"
+             oninput="AlgoPicker.filter()"/>
+    </div>
+    <div id="picker-list" class="picker-list"></div>
+    <div class="btn-row mt-14">
+      <button class="btn btn-ghost"
+              onclick="AlgoPicker.close()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     MODAL: Confirm Delete
+══════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="confirm-backdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-icon">⚠</div>
+      <div>
+        <div class="modal-title">Confirm Delete</div>
+        <div class="modal-subtitle">
+          This action cannot be undone.
+        </div>
+      </div>
+    </div>
+    <div class="modal-body" id="confirm-body">Are you sure?</div>
+    <div class="btn-row">
+      <button class="btn btn-danger" id="confirm-ok">Delete</button>
+      <button class="btn btn-ghost"
+              onclick="UI.closeConfirm()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     TOAST STACK
+══════════════════════════════════════════════════════════ -->
+<div id="toast-stack"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCRIPTS  (order matters)
+══════════════════════════════════════════════════════════ -->
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/algorithms.js"></script>
+<script src="js/visualizer.js"></script>
+<script src="js/run.js"></script>
+<script src="js/jobs.js"></script>
+</body>
+</html>

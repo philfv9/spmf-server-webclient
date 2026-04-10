@@ -1,0 +1,69 @@
+/*
+ * SPMF-Web — Design Tokens
+ * Copyright (C) 2026 Philippe Fournier-Viger
+ * GNU GPL v3 — https://www.gnu.org/licenses/gpl-3.0.html
+ */
+
+:root {
+  /* ── Background scale (light → dark) ─────────────────────── */
+  --bg:        #f0f2f7;
+  --bg2:       #ffffff;
+  --bg3:       #e8eaf2;
+  --bg4:       #dde1ee;
+  --bg-code:   #f7f8fc;
+
+  /* ── Borders ──────────────────────────────────────────────── */
+  --border:    #d0d5e8;
+  --border2:   #b8bfd6;
+
+  /* ── Accent palette ───────────────────────────────────────── */
+  --accent:        #2563eb;
+  --accent-hover:  #1d4ed8;
+  --accent-dim:    rgba(37,99,235,0.10);
+  --accent-glow:   rgba(37,99,235,0.22);
+
+  --accent2:       #7c3aed;
+  --accent2-dim:   rgba(124,58,237,0.10);
+
+  --success:       #059669;
+  --success-hover: #047857;
+  --success-dim:   rgba(5,150,105,0.10);
+
+  --warning:       #d97706;
+  --warning-dim:   rgba(217,119,6,0.10);
+
+  --danger:        #dc2626;
+  --danger-hover:  #b91c1c;
+  --danger-dim:    rgba(220,38,38,0.10);
+
+  --info:          #0284c7;
+  --info-dim:      rgba(2,132,199,0.10);
+
+  /* ── Text ─────────────────────────────────────────────────── */
+  --text:       #1e2535;
+  --text-2:     #374151;
+  --text-muted: #6b7280;
+  --text-faint: #9ca3af;
+
+  /* ── Typography ───────────────────────────────────────────── */
+  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  /* ── Shape ────────────────────────────────────────────────── */
+  --radius-sm: 4px;
+  --radius:    8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* ── Shadow ───────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow:    0 4px 12px rgba(0,0,0,0.10);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.14);
+
+  /* ── Layout ───────────────────────────────────────────────── */
+  --sidebar-w: 220px;
+  --header-h:  52px;
+
+  /* ── Animation ────────────────────────────────────────────── */
+  --trans: 0.16s ease;
+}
