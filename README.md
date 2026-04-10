@@ -1,5 +1,5 @@
-[![License](https://img.shields.io/github/license/philfv9/spmf-server-webclient.svg)](https://github.com/philfv9/spmf-server-webclient/blob/main/LICENSE)
-[![Stars](https://img.shields.io/github/stars/philfv9/spmf-server-webclient.svg)](https://github.com/philfv9/spmf-server-webclient/stargazers)
+[![License](https://img.shields.io/github/license/philfv9/spmf-server-webclient)](https://github.com/philfv9/spmf-server-webclient/blob/main/LICENSE)
+[![Stars](https://img.shields.io/github/stars/philfv9/spmf-server-webclient)](https://github.com/philfv9/spmf-server-webclient/stargazers)
 
 # spmf-server-webclient
 
