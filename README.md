@@ -1,7 +1,7 @@
 [![License](https://img.shields.io/github/license/philfv9/spmf-server-webclient)](https://github.com/philfv9/spmf-server-webclient/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/philfv9/spmf-server-webclient)](https://github.com/philfv9/spmf-server-webclient/stargazers)
 
-# spmf-server-webclient
+# A Web-Client for the SPMF-Server
 
 A **web-based client (HTML, JavaScript, CSS)** with a modern GUI for  
 [SPMF-Server](https://github.com/philfv9/spmf-server).
