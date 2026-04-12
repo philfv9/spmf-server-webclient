@@ -37,7 +37,7 @@ This project is a **lightweight web client** that connects directly to a running
 It replaces command-line or desktop tools with a fully interactive browser interface.
 
 <div align="center">
-  <img src="/images/webclient" alt="SPMF server" width="600">
+  <img src="/images/webclient.png" alt="SPMF server" width="600">
 </div>
 
 The client handles the full job lifecycle automatically:
