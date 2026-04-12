@@ -159,40 +159,17 @@ GET /api/jobs/{jobId}/console
 
 ## Views
 
-### Dashboard
-- Server status overview
-- Active job monitoring
-- System logs
+The web client for the SPMF server is organized into five main views, each designed to support a specific aspect of the user workflow.
 
-### Algorithms
-- Browse all algorithms
-- Search & filter
-- View parameters
+The **Dashboard** provides an overview of the server’s current status, allowing users to monitor active jobs in real time and access system logs for troubleshooting and transparency.
 
-### Run Job
-- Select algorithm
-- Upload dataset
-- Enter parameters
-- Submit execution
+The **Algorithms** view enables users to explore the full list of available algorithms. It includes functionality for searching and filtering, as well as viewing detailed information about each algorithm’s parameters.
 
-### Jobs
-- Live job list
-- Status tracking
-- Delete jobs
+The** Run Job** interface guides users through the process of executing a task. Users can select an algorithm, upload a dataset, configure the required parameters, and submit the job for execution.
 
-### Visualizer
-- Result rendering
-- Console output view
+The **Jobs** view displays a live list of all submitted jobs. It allows users to track the status of each job and delete jobs when necessary.
 
----
-
-## Design Principles
-
-- Modular vanilla JavaScript architecture
-- Separation of UI / logic / API
-- No heavy frameworks
-- Extensible and maintainable structure
-- Consistent CSS token system
+Finally, the **Visualizer** provides tools for interpreting results. It supports result rendering and offers access to the console output for deeper inspection of execution details.
 
 ---
 
