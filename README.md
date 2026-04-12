@@ -36,15 +36,9 @@ This project is a **lightweight web client** that connects directly to a running
 
 It replaces command-line or desktop tools with a fully interactive browser interface.
 
-```
-Browser UI (HTML/JS)
-        ↓
-   api.js (HTTP layer)
-        ↓
-   SPMF-Server (REST API)
-        ↓
-   SPMF Library (Java mining engine)
-```
+<div align="center">
+  <img src="/images/webclient" alt="SPMF server" width="600">
+</div>
 
 The client handles the full job lifecycle automatically:
 
