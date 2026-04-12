@@ -20,12 +20,11 @@ It provides a complete interface to:
 
 - [Overview](#overview)
 - [Features](#features)
+- [Usage](#usage)
+- [Views](#views)
 - [Architecture](#architecture)
 - [Project Structure](#project-structure)
-- [Usage](#usage)
-- [Configuration](#configuration)
 - [API Interaction](#api-interaction)
-- [Views](#views)
 - [License](#license)
 
 ---
@@ -60,6 +59,50 @@ submit → poll → monitor → fetch console → fetch result → visualize
 - Modular architecture (separation of UI / API / logic)
 - Fully responsive layout (desktop-friendly, extensible to mobile)
 
+---
+
+## Usage
+
+### 1. Start the server 
+
+1. Start the SPMF Server  (see [SPMF-Server](https://github.com/philfv9/spmf-server) page for instructions).
+
+### 2. Start the webclient
+
+Open `index.html`.
+
+You can also preset the configuration for connecting to the server in config.js:
+
+| Setting | Description |
+|--------|------------|
+| host | Server hostname (default: localhost) |
+| port | Server port (default: 8585) |
+| apiKey | Optional API authentication key |
+
+```javascript
+export const config = {
+  host: "localhost",
+  port: 8585,
+  pollInterval: 1000,
+  timeout: 300
+};
+```
+
+## Views
+
+The web client for the SPMF server is organized into five main views, each designed to support a specific aspect of the user workflow.
+
+The **Dashboard** provides an overview of the server’s current status, allowing users to monitor active jobs in real time and access system logs for troubleshooting and transparency.
+
+The **Algorithms** view enables users to explore the full list of available algorithms. It includes functionality for searching and filtering, as well as viewing detailed information about each algorithm’s parameters.
+
+The** Run Job** interface guides users through the process of executing a task. Users can select an algorithm, upload a dataset, configure the required parameters, and submit the job for execution.
+
+The **Jobs** view displays a live list of all submitted jobs. It allows users to track the status of each job and delete jobs when necessary.
+
+Finally, the **Visualizer** provides tools for interpreting results. It supports result rendering and offers access to the console output for deeper inspection of execution details.
+
+---
 ---
 
 ## Architecture
@@ -98,41 +141,6 @@ spmf-server-webclient/
     └── ui.js
 ```
 
----
-
-## Usage
-
-### 1. Start the server 
-
-1. Start the SPMF Server  (see [SPMF-Server](https://github.com/philfv9/spmf-server) page for instructions).
-
-### 2. Start the webclient
-
-Open `index.html`.
-
-You can also preset the configuration for connecting to the server in config.js:
-
-| Setting | Description |
-|--------|------------|
-| host | Server hostname (default: localhost) |
-| port | Server port (default: 8585) |
-| apiKey | Optional API authentication key |
-
----
-
-## Configuration
-
-```javascript
-export const config = {
-  host: "localhost",
-  port: 8585,
-  pollInterval: 1000,
-  timeout: 300
-};
-```
-
----
-
 ## API Interaction
 
 ### Submit job
@@ -154,22 +162,6 @@ GET /api/jobs/{jobId}/result
 ```
 GET /api/jobs/{jobId}/console
 ```
-
----
-
-## Views
-
-The web client for the SPMF server is organized into five main views, each designed to support a specific aspect of the user workflow.
-
-The **Dashboard** provides an overview of the server’s current status, allowing users to monitor active jobs in real time and access system logs for troubleshooting and transparency.
-
-The **Algorithms** view enables users to explore the full list of available algorithms. It includes functionality for searching and filtering, as well as viewing detailed information about each algorithm’s parameters.
-
-The** Run Job** interface guides users through the process of executing a task. Users can select an algorithm, upload a dataset, configure the required parameters, and submit the job for execution.
-
-The **Jobs** view displays a live list of all submitted jobs. It allows users to track the status of each job and delete jobs when necessary.
-
-Finally, the **Visualizer** provides tools for interpreting results. It supports result rendering and offers access to the console output for deeper inspection of execution details.
 
 ---
 
