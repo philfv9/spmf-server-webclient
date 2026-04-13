@@ -36,7 +36,7 @@ This project is a **lightweight web client** that connects directly to a running
 It replaces command-line or desktop tools with a fully interactive browser interface.
 
 <div align="center">
-  <img src="/images/webclient.png" alt="SPMF server" width="600">
+  <img src="/images/webclient.png" alt="SPMF server" >
 </div>
 
 The client handles the full job lifecycle automatically:
@@ -61,17 +61,15 @@ submit → poll → monitor → fetch console → fetch result → visualize
 
 ---
 
-## Usage
+## Quick start
 
 ### 1. Start the server 
 
-1. Start the SPMF Server  (see [SPMF-Server](https://github.com/philfv9/spmf-server) page for instructions).
+1. Download the SPMF Server and start the SPMF Server (see [SPMF-Server](https://github.com/philfv9/spmf-server) for details). Requires Java.
 
-### 2. Start the webclient
+### 2. Start the webclient by clicking on `index.html`.  Click the **Connect** button to establish a connection.  If the connection success, then click on **Run job** to run an algorithm on a data file.
 
-Open `index.html`.
-
-You can also preset the configuration for connecting to the server in config.js:
+Optional: You can preset the configuration for connecting to the server in config.js:
 
 | Setting | Description |
 |--------|------------|
@@ -90,19 +88,38 @@ export const config = {
 
 ## Views
 
-The web client for the SPMF server is organized into five main views, each designed to support a specific aspect of the user workflow.
+The web client for the SPMF server is organized into five main views, each designed to support a specific aspect of the user workflow.  Below is a description and screenshot of each view for reference.
 
 The **Dashboard** provides an overview of the server’s current status, allowing users to monitor active jobs in real time and access system logs for troubleshooting and transparency.
 
+<div align="center">
+  <img src="/images/dashboard.png" alt="Dashboard view" width="800">
+</div>
+
 The **Algorithms** view enables users to explore the full list of available algorithms. It includes functionality for searching and filtering, as well as viewing detailed information about each algorithm’s parameters.
 
-The** Run Job** interface guides users through the process of executing a task. Users can select an algorithm, upload a dataset, configure the required parameters, and submit the job for execution.
+<div align="center">
+  <img src="/images/algorithms.png" alt="Algorithms view" width="800">
+</div>
+
+The **Run Job** interface guides users through the process of executing a task. Users can select an algorithm, upload a dataset, configure the required parameters, and submit the job for execution.
+
+<div align="center">
+  <img src="/images/runjob.png" alt="Run job view" width="800">
+</div>
 
 The **Jobs** view displays a live list of all submitted jobs. It allows users to track the status of each job and delete jobs when necessary.
 
-Finally, the **Visualizer** provides tools for interpreting results. It supports result rendering and offers access to the console output for deeper inspection of execution details.
+<div align="center">
+  <img src="/images/jobs.png" alt="Jobs view" width="800">
+</div>
 
----
+Finally, the **Settings** allows to configure options for the Web client.
+
+<div align="center">
+  <img src="/images/settings.png" alt="Settings view" width="800">
+</div>
+
 ---
 
 ## Architecture
