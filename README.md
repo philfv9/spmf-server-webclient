@@ -104,7 +104,7 @@ The **Algorithms** view enables users to explore the full list of available algo
   <img src="/images/algorithms.png" alt="Algorithms view" width="800">
 </div>
 
-The** Run Job** interface guides users through the process of executing a task. Users can select an algorithm, upload a dataset, configure the required parameters, and submit the job for execution.
+The **Run Job** interface guides users through the process of executing a task. Users can select an algorithm, upload a dataset, configure the required parameters, and submit the job for execution.
 
 <div align="center">
   <img src="/images/runjob.png" alt="Run job view" width="800">
