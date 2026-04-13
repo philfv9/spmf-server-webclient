@@ -70,11 +70,11 @@ The client automatically manages the **complete job lifecycle**, from submission
 
 ### 4. Run a Mining Job
 
-1. Go to **Run Job**
-2. Select an algorithm
-3. Upload a dataset
-4. Set parameters
-5. Click **Run Job**
+- Go to **Run Job**
+- Select an algorithm
+- Upload a dataset
+- Set parameters
+- Click **Run Job**
 
 The system will:
 - Submit the job
