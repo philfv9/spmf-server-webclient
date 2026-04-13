@@ -61,17 +61,15 @@ submit → poll → monitor → fetch console → fetch result → visualize
 
 ---
 
-## Usage
+## Quick start
 
 ### 1. Start the server 
 
-1. Start the SPMF Server  (see [SPMF-Server](https://github.com/philfv9/spmf-server) page for instructions).
+1. Download the SPMF Server and start the SPMF Server (see [SPMF-Server](https://github.com/philfv9/spmf-server) for details). Requires Java.
 
-### 2. Start the webclient
+### 2. Start the webclient by clicking on `index.html`.  Click the **Connect** button to establish a connection.  If the connection success, then click on **Run job** to run an algorithm on a data file.
 
-Open `index.html`.
-
-You can also preset the configuration for connecting to the server in config.js:
+Optional: You can preset the configuration for connecting to the server in config.js:
 
 | Setting | Description |
 |--------|------------|
