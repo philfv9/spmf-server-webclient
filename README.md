@@ -55,13 +55,13 @@ The client automatically manages the **complete job lifecycle**, from submission
 
 ### 1. Start the SPMF Server
 
-Download the SPMF Server and launch it (see [SPMF-Server](https://github.com/philfv9/spmf-server) for details).
+- Download the SPMF Server and launch it (see [SPMF-Server](https://github.com/philfv9/spmf-server) for details).
 
-> **Requirement:** Java must be installed.
+**Requirement:** Java must be installed.
 
-### 2. Launch the Web Client
+### 2. Launch the Web Client 
 
-Click on `index.html`. 
+- Click on `index.html`. 
 
 ### 3. Connect to the Server
 
