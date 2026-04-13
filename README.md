@@ -41,9 +41,9 @@ It replaces command-line or desktop tools with a fully interactive browser inter
 
 The client handles the full job lifecycle automatically:
 
-```
-submit → poll → monitor → fetch console → fetch result → visualize
-```
+<div align="center">
+  <img src="/images/flow.png" alt="SPMF server" >
+</div>
 
 ---
 
