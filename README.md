@@ -36,7 +36,7 @@ This project is a **lightweight web client** that connects directly to a running
 It replaces command-line or desktop tools with a fully interactive browser interface.
 
 <div align="center">
-  <img src="/images/webclient.png" alt="SPMF server" width="600">
+  <img src="/images/webclient.png" alt="SPMF server" >
 </div>
 
 The client handles the full job lifecycle automatically:
@@ -95,31 +95,31 @@ The web client for the SPMF server is organized into five main views, each desig
 The **Dashboard** provides an overview of the server’s current status, allowing users to monitor active jobs in real time and access system logs for troubleshooting and transparency.
 
 <div align="center">
-  <img src="/images/dashboard.png" alt="Dashboard view" width="600">
+  <img src="/images/dashboard.png" alt="Dashboard view" width="800">
 </div>
 
 The **Algorithms** view enables users to explore the full list of available algorithms. It includes functionality for searching and filtering, as well as viewing detailed information about each algorithm’s parameters.
 
 <div align="center">
-  <img src="/images/algorithms.png" alt="Algorithms view" width="600">
+  <img src="/images/algorithms.png" alt="Algorithms view" width="800">
 </div>
 
 The** Run Job** interface guides users through the process of executing a task. Users can select an algorithm, upload a dataset, configure the required parameters, and submit the job for execution.
 
 <div align="center">
-  <img src="/images/runjob.png" alt="Run job view" width="600">
+  <img src="/images/runjob.png" alt="Run job view" width="800">
 </div>
 
 The **Jobs** view displays a live list of all submitted jobs. It allows users to track the status of each job and delete jobs when necessary.
 
 <div align="center">
-  <img src="/images/jobs.png" alt="Jobs view" width="600">
+  <img src="/images/jobs.png" alt="Jobs view" width="800">
 </div>
 
 Finally, the **Settings** allows to configure options for the Web client.
 
 <div align="center">
-  <img src="/images/settings.png" alt="Settings view" width="600">
+  <img src="/images/settings.png" alt="Settings view" width="800">
 </div>
 
 ---
