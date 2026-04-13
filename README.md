@@ -1,45 +1,44 @@
 [![License](https://img.shields.io/github/license/philfv9/spmf-server-webclient)](https://github.com/philfv9/spmf-server-webclient/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/philfv9/spmf-server-webclient)](https://github.com/philfv9/spmf-server-webclient/stargazers)
 
-# A Web-Client for the SPMF-Server
+# SPMF-Server Web Client
 
-This repository provides a fully **Web-based client (HTML, JavaScript, CSS)** with a modern GUI for [SPMF-Server](https://github.com/philfv9/spmf-server). 
-This allows to connect to a server to run the more than 300 data mining and pattern mining algorithms from the [SPMF library](http://www.philippe-fournier-viger.com/spmf/) remotely.
+A modern, lightweight, and fully interactive **Web Client (HTML, JavaScript, CSS)** for the [SPMF-Server](https://github.com/philfv9/spmf-server).
 
-The Web Client provides an intuitive interface to:
+This project provides a clean and user-friendly browser interface to remotely access and execute **300+ data mining and pattern mining algorithms** from the popular  [SPMF library](http://www.philippe-fournier-viger.com/spmf/), without requiring any installation beyond a web browser.
 
-- Browse mining algorithms
-- Submit pattern mining jobs by uploading datasets
-- Monitor job execution
-- Poll job status automatically
-- Retrieve and visualize results
+
+##  Why this project?
+
+The original SPMF ecosystem provides powerful data analysis capabilities through Java-based tools, GUI and command-line interfaces. However, it requires installing Java and running the software on our own computer. To provide more flexibility, the SPMF Server and Web client are proposed. It allows SPMF to be be executed by multiple users remotely with zero installation (runs directly in the browser as a webpage) and through an intuitive user interface.
 
 ---
 
 ## Table of Contents
 
 - [Overview](#overview)
-- [Features](#features)
-- [Usage](#usage)
+- [Quick Start](#quick-start)
+- [Configuration](#configuration)
 - [Views](#views)
 - [Architecture](#architecture)
 - [Project Structure](#project-structure)
 - [API Interaction](#api-interaction)
+- [Contributing](#contributing)
 - [License](#license)
 
 ---
 
 ## Overview
 
-This project is a **lightweight web client** that connects directly to a running instance of **SPMF-Server**.
+This project is a **lightweight front-end client** designed to interact with a running instance of **SPMF-Server**.
 
-It replaces command-line or desktop tools with a fully interactive browser interface.
+It replaces command-line or desktop tools with a visual, intuitive, and interactive browser interface.
 
 <div align="center">
   <img src="/images/webclient.png" alt="SPMF server" >
 </div>
 
-The client handles the full job lifecycle automatically:
+The client automatically manages the **complete job lifecycle**, from submission to result retrieval:
 
 <div align="center">
   <img src="/images/flow.png" alt="SPMF server" >
@@ -47,27 +46,41 @@ The client handles the full job lifecycle automatically:
 
 ---
 
-## Features
+## ⚡Quick start⚡
 
-- Modern **single-page web application (SPA)**
-- Algorithm browser with dynamic loading
-- Job submission interface with parameter support
-- Automatic job polling (live status updates)
-- Job history dashboard
-- Result visualization module
-- Console output viewer
-- Modular architecture (separation of UI / API / logic)
-- Fully responsive layout (desktop-friendly, extensible to mobile)
+### 1. Start the SPMF Server
 
----
+Download the SPMF Server and launch it (see [SPMF-Server](https://github.com/philfv9/spmf-server) for details).
 
-## Quick start
+> **Requirement:** Java must be installed.
 
-1. Download the SPMF Server and start the SPMF Server (see [SPMF-Server](https://github.com/philfv9/spmf-server) for details). Requires Java.
+### 2. Launch the Web Client
 
-2. Start the webclient by clicking on `index.html`.
+Click on `index.html`. 
 
-   Optional: You can also preset the configuration for connecting to the server in config.js by specifying the server hostname, server port, api key (optional), job poll interval (e.g. 1 second), job timeout (e.g. 300 seconds), encoding e.g. "plain) and whether the job should auto-delete from the server after returning the results to the client.
+### 3. Connect to the Server
+
+- Enter server configuration (or use defaults)
+- Click **Connect**
+
+### 4. Run a Mining Job
+
+1. Go to **Run Job**
+2. Select an algorithm
+3. Upload a dataset
+4. Set parameters
+5. Click **Run Job**
+
+The system will:
+- Submit the job
+- Poll its status automatically
+- Retrieve results when ready
+
+## ⚙️ Configuration
+
+You can customize the connection settings in `config.js`:
+
+You can  preset the configuration for connecting to the server in config.js by specifying the server hostname, server port, api key (optional), job poll interval (e.g. 1 second), job timeout (e.g. 300 seconds), encoding e.g. "plain) and whether the job should auto-delete from the server after returning the results to the client.
 
 ```javascript
   /* ── Defaults ─────────────────────────────────────────────────── */
@@ -82,14 +95,10 @@ The client handles the full job lifecycle automatically:
   };
 ```
 
-4. Click the **Connect** button to establish a connection.
 
-5. If the connection succeed, then click on **Run job** to select an algorithm, select a data file and set the parameters. Then click on "Run job" to submit the job to the server. Then wait for the result.
+## 🧭Views
 
-
-## Views
-
-The web client for the SPMF server is organized into five main views, each designed to support a specific aspect of the user workflow.  Below is a description and screenshot of each view for reference.
+The Web Client is organized into several intuitive views, each supporting a specific stage of the workflow:
 
 The **Dashboard** provides an overview of the server’s current status, allowing users to monitor active jobs in real time and access system logs for troubleshooting and transparency.
 
@@ -125,6 +134,8 @@ Finally, the **Settings** allows to configure options for the Web client.
 
 ## Architecture
 
+The application follows a clean modular architecture:
+
 | Layer | Files | Responsibility |
 |------|------|----------------|
 | UI Layer | `index.html`, `layout.css`, `components.css`, `views.css` | Interface rendering |
@@ -136,7 +147,7 @@ Finally, the **Settings** allows to configure options for the Web client.
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 spmf-server-webclient/
@@ -159,37 +170,41 @@ spmf-server-webclient/
     └── ui.js
 ```
 
-## API Interaction
+## 🔌 API Interaction
 
 ### Submit job
 ```
 POST /api/run
 ```
 
-### Check status
+### Check job status
 ```
 GET /api/jobs/{jobId}
 ```
 
-### Fetch result
+### Fetch results
 ```
 GET /api/jobs/{jobId}/result
 ```
 
-### Fetch console
+### Fetch console output
 ```
 GET /api/jobs/{jobId}/console
 ```
 
 ---
 
-##  Improvements
+##  🤝 Contributing
 
-Interested in contributing? Send your comments and suggestions for improvements to philfv AT qq DOT com
+Contributions, suggestions, and feedback are welcome!
+
+Interested in contributing? Send us your comments and suggestions for improvements.
+
+📧 Contact: philfv AT qq DOT com
 
 ---
 
-## License
+## 📜 License
 
 This project is licensed under the GNU General Public License v3.0.
 
@@ -199,7 +214,7 @@ The code is copyright by the authors.
 
 ---
 
-## Related Projects
+## 🔗 Related Projects
 
 - SPMF Library: https://github.com/philfv9/spmf
 - SPMF-Server: https://github.com/philfv9/spmf-server
