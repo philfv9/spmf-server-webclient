@@ -67,9 +67,14 @@ The client handles the full job lifecycle automatically:
 
 1. Download the SPMF Server and start the SPMF Server (see [SPMF-Server](https://github.com/philfv9/spmf-server) for details). Requires Java.
 
-### 2. Start the webclient by clicking on `index.html`.  Click the **Connect** button to establish a connection.  If the connection success, then click on **Run job** to run an algorithm on a data file.
+2. Start the webclient by clicking on `index.html`.
 
-Optional: You can also preset the configuration for connecting to the server in config.js by specifying the server hostname, server port, api key (optional), job poll interval (e.g. 1 second), job timeout (e.g. 300 seconds), encoding e.g. "plain) and whether the job should auto-delete from the server after returning the results to the client.
+   Optional: You can also preset the configuration for connecting to the server in config.js by specifying the server hostname, server port, api key (optional), job poll interval (e.g. 1 second), job timeout (e.g. 300 seconds), encoding e.g. "plain) and whether the job should auto-delete from the server after returning the results to the client.
+
+3. Click the **Connect** button to establish a connection.
+
+4. If the connection succeed, then click on **Run job** to select an algorithm, select a data file and set the parameters. Then click on "Run job" to submit the job to the server. Then wait for the result.
+
 
 ```javascript
   /* ── Defaults ─────────────────────────────────────────────────── */
