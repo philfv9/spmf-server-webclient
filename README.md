@@ -46,7 +46,7 @@ The client automatically manages the **complete job lifecycle**, from submission
 
 ---
 
-## ⚡Quick start⚡
+## Quick start
 
 ### 1. Start the SPMF Server
 
@@ -76,7 +76,7 @@ The system will:
 - Poll its status automatically
 - Retrieve results when ready
 
-## ⚙️ Configuration
+## Configuration
 
 You can customize the connection settings in `config.js`:
 
@@ -96,7 +96,7 @@ You can  preset the configuration for connecting to the server in config.js by s
 ```
 
 
-## 🧭Views
+## Views
 
 The Web Client is organized into several intuitive views, each supporting a specific stage of the workflow:
 
@@ -147,7 +147,7 @@ The application follows a clean modular architecture:
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 spmf-server-webclient/
@@ -194,7 +194,7 @@ GET /api/jobs/{jobId}/console
 
 ---
 
-##  🤝 Contributing
+## Contributing
 
 Contributions, suggestions, and feedback are welcome!
 
@@ -204,7 +204,7 @@ Interested in contributing? Send us your comments and suggestions for improvemen
 
 ---
 
-## 📜 License
+## License
 
 This project is licensed under the GNU General Public License v3.0.
 
@@ -214,7 +214,7 @@ The code is copyright by the authors.
 
 ---
 
-## 🔗 Related Projects
+## Related Projects
 
 - SPMF Library: https://github.com/philfv9/spmf
 - SPMF-Server: https://github.com/philfv9/spmf-server
