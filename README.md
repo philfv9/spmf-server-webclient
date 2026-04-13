@@ -3,13 +3,13 @@
 
 # A Web-Client for the SPMF-Server
 
-A **web-based client (HTML, JavaScript, CSS)** with a modern GUI for  
-[SPMF-Server](https://github.com/philfv9/spmf-server).
+This repository provides a fully **Web-based client (HTML, JavaScript, CSS)** with a modern GUI for [SPMF-Server](https://github.com/philfv9/spmf-server). 
+This allows to connect to a server to run the more than 300 data mining and pattern mining algorithms from the [SPMF library](http://www.philippe-fournier-viger.com/spmf/) remotely.
 
-It provides a complete interface to:
+The Web Client provides an intuitive interface to:
 
 - Browse mining algorithms
-- Submit pattern mining jobs
+- Submit pattern mining jobs by uploading datasets
 - Monitor job execution
 - Poll job status automatically
 - Retrieve and visualize results
