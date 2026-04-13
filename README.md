@@ -1,5 +1,10 @@
 [![License](https://img.shields.io/github/license/philfv9/spmf-server-webclient)](https://github.com/philfv9/spmf-server-webclient/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/philfv9/spmf-server-webclient)](https://github.com/philfv9/spmf-server-webclient/stargazers)
+[![Issues](https://img.shields.io/github/issues/philfv9/spmf-server-webclient)](https://github.com/philfv9/spmf-server-webclient/issues)
+[![Last Commit](https://img.shields.io/github/last-commit/philfv9/spmf-server-webclient)](https://github.com/philfv9/spmf-server-webclient/commits/main)
+[![Made with JavaScript](https://img.shields.io/badge/Made%20with-JavaScript-yellow)]()
+[![SPMF](https://img.shields.io/badge/SPMF-300%2B%20Algorithms-blue)](http://www.philippe-fournier-viger.com/spmf/)
+
 
 # SPMF-Server Web Client
 
