@@ -8,9 +8,9 @@ A modern, lightweight, and fully interactive **Web Client (HTML, JavaScript, CSS
 This project provides a clean and user-friendly browser interface to remotely access and execute **300+ data mining and pattern mining algorithms** from the popular  [SPMF library](http://www.philippe-fournier-viger.com/spmf/), without requiring any installation beyond a web browser.
 
 
-##  Why this project?
+## Why this project?
 
-The original SPMF ecosystem provides powerful data analysis capabilities through Java-based tools, GUI and command-line interfaces. However, it requires installing Java and running the software on our own computer. To provide more flexibility, the SPMF Server and Web client are proposed. It allows SPMF to be be executed by multiple users remotely with zero installation (runs directly in the browser as a webpage) and through an intuitive user interface.
+The original SPMF ecosystem provides powerful data analysis capabilities through Java-based tools, GUI and command-line interfaces. However, it requires installing Java and running the software on our own computer. To provide more flexibility, the SPMF Server and Web client are proposed. It allows SPMF to be executed by multiple users remotely with zero installation (runs directly in the browser as a webpage) and through an intuitive user interface.
 
 ---
 
@@ -80,7 +80,7 @@ The system will:
 
 You can customize the connection settings in `config.js`:
 
-You can  preset the configuration for connecting to the server in config.js by specifying the server hostname, server port, api key (optional), job poll interval (e.g. 1 second), job timeout (e.g. 300 seconds), encoding e.g. "plain) and whether the job should auto-delete from the server after returning the results to the client.
+You can  preset the configuration for connecting to the server in config.js by specifying the server hostname, server port, api key (optional), job poll interval (e.g. 1 second), job timeout (e.g. 300 seconds), encoding (e.g. "plain) and whether the job should auto-delete from the server after returning the results to the client.
 
 ```javascript
   /* ── Defaults ─────────────────────────────────────────────────── */
