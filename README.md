@@ -69,21 +69,19 @@ The client handles the full job lifecycle automatically:
 
 ### 2. Start the webclient by clicking on `index.html`.  Click the **Connect** button to establish a connection.  If the connection success, then click on **Run job** to run an algorithm on a data file.
 
-Optional: You can preset the configuration for connecting to the server in config.js:
-
-| Setting | Description |
-|--------|------------|
-| host | Server hostname (default: localhost) |
-| port | Server port (default: 8585) |
-| apiKey | Optional API authentication key |
+Optional: You can also preset the configuration for connecting to the server in config.js by specifying the server hostname, server port, api key (optional), job poll interval (e.g. 1 second), job timeout (e.g. 300 seconds), encoding e.g. "plain) and whether the job should auto-delete from the server after returning the results to the client.
 
 ```javascript
-export const config = {
-  host: "localhost",
-  port: 8585,
-  pollInterval: 1000,
-  timeout: 300
-};
+  /* ── Defaults ─────────────────────────────────────────────────── */
+  const DEFAULTS = {
+    host:     "localhost",
+    port:     8585,
+    apikey:   "",
+    poll:     1,
+    timeout:  300,
+    encoding: "plain",
+    cleanup:  true,
+  };
 ```
 
 ## Views
