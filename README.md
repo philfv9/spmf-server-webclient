@@ -8,6 +8,11 @@
 
 # SPMF-Server Web Client
 
+<div align="center">
+  <img src="/images/web-logo.png" alt="SPMF server">
+</div>
+
+
 A modern, lightweight, and fully interactive **Web Client (HTML, JavaScript, CSS)** for the [SPMF-Server](https://github.com/philfv9/spmf-server).
 
 This project provides a clean and user-friendly browser interface to remotely access and execute **300+ data mining and pattern mining algorithms** from the popular  [SPMF library](http://www.philippe-fournier-viger.com/spmf/), without requiring any installation beyond a web browser.
