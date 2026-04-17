@@ -175,7 +175,7 @@ spmf-server-webclient/
     └── ui.js
 ```
 
-## 🔌 API Interaction
+## API Interaction
 
 ### Submit job
 ```
