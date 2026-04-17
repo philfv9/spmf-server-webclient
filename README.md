@@ -16,7 +16,7 @@ This project provides a clean and user-friendly browser interface to remotely ac
 ## Why this project?
 
 The original SPMF ecosystem provides powerful data analysis capabilities through Java-based tools, GUI and command-line interfaces. However, it requires installing Java and running the software on our own computer. To provide more flexibility, the SPMF Server and Web client are proposed. It allows SPMF to be executed by multiple users remotely with zero installation (runs directly in the browser as a webpage) and through an intuitive user interface.
-
+  
 ---
 
 ## Table of Contents
@@ -37,7 +37,7 @@ The original SPMF ecosystem provides powerful data analysis capabilities through
 
 This project is a **lightweight front-end client** designed to interact with a running instance of **SPMF-Server**.
 
-It replaces command-line or desktop tools with a visual, intuitive, and interactive browser interface.
+It replaces command-line and desktop tools with a visual, intuitive, and interactive browser interface.
 
 <div align="center">
   <img src="/images/webclient.png" alt="SPMF server" >
@@ -83,9 +83,16 @@ The system will:
 
 ## Configuration
 
-You can customize the connection settings in `config.js`:
+Connection settings can be customized in `config.js`.
 
-You can  preset the configuration for connecting to the server in config.js by specifying the server hostname, server port, api key (optional), job poll interval (e.g. 1 second), job timeout (e.g. 300 seconds), encoding (e.g. "plain) and whether the job should auto-delete from the server after returning the results to the client.
+You can preset:
+
+- Server hostname and port  
+- API key (optional)  
+- Polling interval (seconds)  
+- Job timeout (seconds)  
+- Input encoding  
+- Automatic cleanup behavior  
 
 ```javascript
   /* ── Defaults ─────────────────────────────────────────────────── */
@@ -177,24 +184,208 @@ spmf-server-webclient/
 
 ## API Interaction
 
-### Submit job
+### Submit Job
 ```
 POST /api/run
 ```
 
-### Check job status
+Submit an algorithm execution job.
+
+**Request body (JSON):**
+```json
+{
+  "algorithmName": "Apriori",
+  "parameters": ["0.4", "0.8"],
+  "inputData": "1 2 3\n1 3 4\n...",
+  "inputEncoding": "plain"
+}
+```
+
+- `algorithmName` (required): Name of the SPMF algorithm  
+- `parameters` (optional): List of parameters as strings  
+- `inputData` (required): Input dataset  
+- `inputEncoding` (optional): `"plain"` (default) or `"base64"`
+
+**Response (202 Accepted):**
+```json
+{
+  "jobId": "...",
+  "status": "PENDING",
+  "algorithmName": "Apriori",
+  "submittedAt": "..."
+}
+```
+
+**Errors:**
+- `400` — invalid JSON or parameters  
+- `404` — unknown algorithm  
+- `413` — input too large  
+- `503` — queue full  
+
+---
+
+### List All Jobs
+```
+GET /api/jobs
+```
+
+Return a summary of all jobs.
+
+**Response (200):**
+```json
+{
+  "count": 3,
+  "jobs": [
+    {
+      "jobId": "...",
+      "algorithmName": "...",
+      "status": "DONE",
+      "submittedAt": "..."
+    }
+  ]
+}
+```
+
+---
+
+### Get Job Status
 ```
 GET /api/jobs/{jobId}
 ```
 
-### Fetch results
+Return detailed information about a job.
+
+**Response (200):**
+```json
+{
+  "jobId": "...",
+  "algorithmName": "...",
+  "status": "RUNNING",
+  "submittedAt": "...",
+  "startedAt": "...",
+  "finishedAt": null,
+  "executionTimeMs": 1234,
+  "errorMessage": null
+}
+```
+
+**Errors:**
+- `404` — job not found  
+
+---
+
+### Fetch Results
 ```
 GET /api/jobs/{jobId}/result
 ```
 
-### Fetch console output
+Return the result of a completed job.
+
+**Response (200, when DONE):**
+```json
+{
+  "jobId": "...",
+  "outputData": "...",
+  "outputEncoding": "plain",
+  "executionTimeMs": 1234
+}
+```
+
+**Errors:**
+- `404` — job not found  
+- `409` — job still `PENDING` or `RUNNING`  
+- `422` — job failed  
+
+---
+
+### Fetch Console Output
 ```
 GET /api/jobs/{jobId}/console
+```
+
+Return the captured stdout/stderr of the job.
+
+**Response (200):**
+```json
+{
+  "jobId": "...",
+  "status": "DONE",
+  "consoleOutput": "...",
+  "lines": 42
+}
+```
+
+**Errors:**
+- `404` — job not found  
+- `410` — console not yet available (PENDING or early RUNNING)  
+- `500` — console missing unexpectedly  
+
+---
+
+### Delete Job
+```
+DELETE /api/jobs/{jobId}
+```
+
+Delete a job and its working directory.
+
+**Response (200):**
+```json
+{
+  "jobId": "...",
+  "deleted": true
+}
+```
+
+**Errors:**
+- `404` — job not found  
+
+---
+
+### Health Check
+```
+GET /api/health
+```
+
+Return server health and runtime statistics.
+
+**Response (200):**
+```json
+{
+  "status": "UP",
+  "version": "1.0.0",
+  "spmfAlgorithmsLoaded": 150,
+  "uptimeSeconds": 3600,
+  "activeJobs": 2,
+  "queuedJobs": 1,
+  "totalJobsInRegistry": 10
+}
+```
+
+---
+
+### Server Information
+```
+GET /api/info
+```
+
+Return server configuration (non-sensitive fields only).
+
+**Response (200):**
+```json
+{
+  "version": "1.0.0",
+  "host": "localhost",
+  "port": 8080,
+  "coreThreads": 4,
+  "maxThreads": 16,
+  "jobTtlMinutes": 60,
+  "maxQueueSize": 100,
+  "workDir": "/tmp/spmf",
+  "maxInputSizeMb": 10,
+  "apiKeyEnabled": true,
+  "logLevel": "INFO"
+}
 ```
 
 ---
