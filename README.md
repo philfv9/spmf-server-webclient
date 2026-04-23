@@ -431,4 +431,4 @@ The code and content of this page is copyright © Philippe Fournier-Viger and co
 
 - SPMF Library: https://github.com/philfv9/spmf
 - SPMF-Server: https://github.com/philfv9/spmf-server
-- Official Website: http://philippe-fournier-viger.com/spmf/
+- Official Website of SPMF: http://philippe-fournier-viger.com/spmf/
