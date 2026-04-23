@@ -407,11 +407,23 @@ Interested in contributing? Send us your comments and suggestions for improvemen
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0.
+The source code and files in this project are licensed under the **GNU General Public License v3.0 (GPLv3)**.
+The GPL license grants four freedoms:
 
-The code is copyright by the authors.
+1. Run the program for any purpose
+2. Access the source code
+3. Modify the source code
+4. Redistribute modified versions
 
-© Philippe Fournier-Viger
+**Restrictions:** If you redistribute the software (or derivative works), you must:
+
+- Provide access to the source code
+- License derivative works under the same GPLv3 license
+- Include prominent notices stating that you modified the code, along with the modification date
+
+For full details about the license and its requirements, see the [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html).
+
+The code and content of this page is copyright © Philippe Fournier-Viger and contributors
 
 ---
 
