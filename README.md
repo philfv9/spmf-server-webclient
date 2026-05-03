@@ -151,7 +151,7 @@ Finally, the **Settings** allows to configure options for the Web client.
 
 ## Architecture
 
-The application follows a clean modular architecture:
+The application follows a clean modular architecture. The main modules and files are presented below:
 
 | Layer | Files | Responsibility |
 |------|------|----------------|
