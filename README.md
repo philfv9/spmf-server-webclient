@@ -418,7 +418,7 @@ The GPL license grants four freedoms:
 **Restrictions:** If you redistribute the software (or derivative works), you must:
 
 - Provide access to the source code
-- License derivative works under the same GPLv3 license
+- License derivative works under the same GPLv3 license, and preserve file headers, copyright and license information.
 - Include prominent notices stating that you modified the code, along with the modification date
 
 For full details about the license and its requirements, see the [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html).
